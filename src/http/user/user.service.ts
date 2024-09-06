@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { MongoError } from 'mongodb';
+import { Model } from 'mongoose';
 import { User } from 'src/schemas/user.schema';
 import { mongoErrorHandler } from 'src/utils/mongo-error-handler';
-import { MongoError } from 'mongodb';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -25,8 +25,8 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
-  findOne(id: string) {
-    return this.userModel.findById(id).exec();
+  async findOne(id: string) {
+    return await this.userModel.findById(id).exec();
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
